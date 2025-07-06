@@ -93,6 +93,7 @@
 <script setup>
 import { ref, nextTick, onMounted, watch } from "vue";
 import { marked } from "marked";
+import DOMPurify from "dompurify";
 
 const apiKey = ref("");
 const newMessage = ref("");
@@ -123,7 +124,16 @@ const clearApiKey = () => {
 
 const renderMarkdown = (content) => {
   if (!content) return "";
-  return marked.parse(content);
+  return DOMPurify.sanitize(marked.parse(content));
+};
+
+let scrollTimeout = null;
+const throttledScrollToBottom = () => {
+  if (scrollTimeout) return;
+  scrollTimeout = setTimeout(() => {
+    scrollToBottom();
+    scrollTimeout = null;
+  }, 100);
 };
 
 const scrollToBottom = async () => {
@@ -161,7 +171,7 @@ const sendMessage = async () => {
   newMessage.value = "";
   isLoading.value = true;
   messages.value.push({ content: "", isUser: false });
-  scrollToBottom();
+  throttledScrollToBottom();
 
   try {
     const response = await fetch("http://localhost:3000/api/chat-stream", {
@@ -172,7 +182,7 @@ const sendMessage = async () => {
       },
       body: JSON.stringify({
         message: currentMessageForHistory,
-        history: chatHistory.value.slice(0, -1),
+        history: chatHistory.value,
         apiKey: currentApiKey,
       }),
     });
@@ -181,7 +191,10 @@ const sendMessage = async () => {
       const errorData = await response
         .json()
         .catch(() => ({ error: "无法解析的服务器错误" }));
-      throw new Error(errorData.error || "服务器返回错误");
+      alert(errorData.error || "服务器返回错误");
+      isLoading.value = false;
+      messages.value.pop();
+      return;
     }
 
     const reader = response.body.getReader();
@@ -227,7 +240,7 @@ const sendMessage = async () => {
             if (data.text) {
               fullReply += data.text;
               messages.value[messages.value.length - 1].content = fullReply;
-              scrollToBottom();
+              throttledScrollToBottom();
             }
           } catch (e) {
             console.error("Could not parse data chunk:", dataStr, e);
@@ -236,9 +249,23 @@ const sendMessage = async () => {
           const dataStr = line.substring(line.indexOf("data:") + 5).trim();
           try {
             const errorData = JSON.parse(dataStr);
-            throw new Error(errorData.error || "来自服务器的流错误");
+            alert(errorData.error || "来自服务器的流错误");
+            isLoading.value = false;
+            messages.value[
+              messages.value.length - 1
+            ].content = `出错了：${errorData.error}`;
+            chatHistory.value.pop();
+            streamEnded = true;
+            break;
           } catch (e) {
-            throw new Error("来自服务器的无法解析的流错误");
+            alert("来自服务器的无法解析的流错误");
+            isLoading.value = false;
+            messages.value[
+              messages.value.length - 1
+            ].content = `出错了：无法解析服务器错误`;
+            chatHistory.value.pop();
+            streamEnded = true;
+            break;
           }
         }
       }
@@ -252,6 +279,7 @@ const sendMessage = async () => {
   } catch (error) {
     console.error("流式请求失败：", error);
     isLoading.value = false;
+    alert(error.message || "请求失败");
     messages.value[
       messages.value.length - 1
     ].content = `出错了：${error.message}`;
