@@ -34,8 +34,9 @@ cd ../frontend
 npm run dev
 ```
 
-前端默认地址：http://localhost:5173
-后端默认地址：http://localhost:3000
+- 前端默认地址：http://localhost:5173
+
+- 后端默认地址：http://localhost:3000
 
 ## API Key 说明
 

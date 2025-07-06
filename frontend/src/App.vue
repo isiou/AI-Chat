@@ -9,7 +9,6 @@
         新对话
       </button>
     </div>
-
     <div class="api-key-container">
       <div class="api-key-header">
         <label for="api-key-input">Google AI API Key:</label>
@@ -274,7 +273,10 @@ const sendMessage = async () => {
     isLoading.value = false;
 
     if (fullReply) {
-      chatHistory.value.push({ role: "model", parts: [{ text: fullReply }] });
+      chatHistory.value.push({
+        role: "model",
+        parts: [{ text: fullReply }],
+      });
     }
   } catch (error) {
     console.error("流式请求失败：", error);
