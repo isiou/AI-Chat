@@ -24,6 +24,11 @@ npm install
 
 ## 运行方式
 
+> ```bash
+> npm run dev-back
+> npm run dev-front
+> ```
+
 ```bash
 # 启动后端
 cd backend
@@ -40,8 +45,8 @@ npm run dev
 
 ## API Key 说明
 
-- 你需要在前端页面输入自己的 Google Gemini API Key。
-- 后端不会保存你的 Key，仅做转发。
+- 前端页面输入 Gemini API Key。
+- 后端不会保存 Key，仅做转发。
 
 ## 生产环境部署
 

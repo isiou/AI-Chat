@@ -1,13 +1,91 @@
+# 根配置
 root = true
 
+# 全局设置
 [*]
+end_of_line = lf
 charset = utf-8
 indent_style = space
-indent_size = 2
-end_of_line = lf
-insert_final_newline = true
 trim_trailing_whitespace = true
-max_line_length = 80
+insert_final_newline = true
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
 
 [*.json]
-indent_size = 2
+# 最后
+comma_style = no_comma_last_line
+
+[*.yaml]
+colon_delimiter = space_after
+
+[*.{js,ts,jsx,tsx}]
+# 双引号
+quotes = double
+# 箭头函数带括号
+arrow_parens = always
+
+[*.tsx]
+# 属性使用单引号
+jsx_quotes = single
+
+[*.{css,scss,sass}]
+value_case = lower
+# 选择器间距
+block_indent_style = same_line
+
+[*.py]
+indent_size = 4
+# 续航使用反斜杠
+line_continuation_style = backslash
+# 三重引号自动闭合
+auto_closing_quotes = true
+
+[*.java]
+indent_size = 4
+# 大括号换行
+brace_style = allman
+
+[*.{c,h,cpp,hpp}]
+indent_size = 4
+# 指针符号与类型绑定
+pointer_style = type_prefix
+
+[*.go]
+indent_style = tab
+indent_size = 4
+# 导入路径排序
+import_order = goimport
+
+[*.{sh,bash,bat}]
+indent_size = 4
+# 变量引用使用花括号
+variable_expansion = braces
+
+[Dockerfile]
+# 指令大写
+docker_instruction_case = upper
+
+[.gitattributes]
+insert_final_newline = false
+charset = utf-8
+
+[.editorconfig]
+insert_final_newline = false
+charset = utf-8
+
+# 二进制文件排除
+[*.{png,jpg,jpeg,gif,ico,webp}]
+charset = none
+indent_style = none
+
+# 日志和锁文件
+[*.{log,lock}]
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+# 依赖目录排除
+[{node_modules,bower_components,vendor,venv}/**]
+charset = none
+indent_style = none

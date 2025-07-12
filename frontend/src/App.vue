@@ -11,7 +11,7 @@
     </div>
     <div class="api-key-container">
       <div class="api-key-header">
-        <label for="api-key-input">Google AI API Key:</label>
+        <label for="api-key-input">Gemini API Key:</label>
         <button class="clear-btn" @click="clearApiKey">清除</button>
       </div>
       <input
@@ -250,18 +250,16 @@ const sendMessage = async () => {
             const errorData = JSON.parse(dataStr);
             alert(errorData.error || "来自服务器的流错误");
             isLoading.value = false;
-            messages.value[
-              messages.value.length - 1
-            ].content = `出错了：${errorData.error}`;
+            messages.value[messages.value.length - 1].content =
+              `出错了：${errorData.error}`;
             chatHistory.value.pop();
             streamEnded = true;
             break;
           } catch (e) {
             alert("来自服务器的无法解析的流错误");
             isLoading.value = false;
-            messages.value[
-              messages.value.length - 1
-            ].content = `出错了：无法解析服务器错误`;
+            messages.value[messages.value.length - 1].content =
+              `出错了：无法解析服务器错误`;
             chatHistory.value.pop();
             streamEnded = true;
             break;
@@ -282,9 +280,8 @@ const sendMessage = async () => {
     console.error("流式请求失败：", error);
     isLoading.value = false;
     alert(error.message || "请求失败");
-    messages.value[
-      messages.value.length - 1
-    ].content = `出错了：${error.message}`;
+    messages.value[messages.value.length - 1].content =
+      `出错了：${error.message}`;
     chatHistory.value.pop();
   }
 };

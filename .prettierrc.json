@@ -1,0 +1,98 @@
+{
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": false,
+  "quoteProps": "as-needed",
+  "jsxSingleQuote": true,
+  "trailingComma": "es5",
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "endOfLine": "auto",
+  "plugins": ["prettier-plugin-zh"],
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "html",
+        "semi": true
+      }
+    },
+    {
+      "files": "*.js",
+      "options": {
+        "parser": "babel",
+        "semi": true,
+        "trailingComma": "es5"
+      }
+    },
+    {
+      "files": "*.ts",
+      "options": {
+        "parser": "typescript",
+        "trailingComma": "es5",
+        "singleQuote": true
+      }
+    },
+    {
+      "files": "*.tsx",
+      "options": {
+        "parser": "typescript",
+        "jsxSingleQuote": true,
+        "trailingComma": "es5"
+      }
+    },
+    {
+      "files": "*.json",
+      "options": {
+        "parser": "json",
+        "trailingComma": "none",
+        "quoteProps": "as-needed"
+      }
+    },
+    {
+      "files": "*.css",
+      "options": {
+        "parser": "css",
+        "semi": false
+      }
+    },
+    {
+      "files": "*.scss",
+      "options": {
+        "parser": "scss",
+        "semi": false
+      }
+    },
+    {
+      "files": "*.md",
+      "options": {
+        "parser": "markdown",
+        "printWidth": 100,
+        "trailingComma": "none"
+      }
+    },
+    {
+      "files": "*.vue",
+      "options": {
+        "parser": "vue",
+        "semi": true
+      }
+    },
+    {
+      "files": "*.graphql",
+      "options": {
+        "parser": "graphql",
+        "printWidth": 100
+      }
+    },
+    {
+      "files": "*.yaml",
+      "options": {
+        "parser": "yaml",
+        "printWidth": 100
+      }
+    }
+  ]
+}
