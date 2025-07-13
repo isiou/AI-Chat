@@ -12,6 +12,7 @@
     "semver": "^7.7.2"
   },
   "scripts": {
+    "check": "prettier --check .",
     "format": "prettier --write .",
     "dev-back": "cd backend && npm run dev",
     "dev-front": "cd frontend && npm run dev",

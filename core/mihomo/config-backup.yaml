@@ -1,0 +1,58 @@
+mixed-port: 7890
+allow-lan: true
+bind-address: "*"
+mode: rule
+log-level: info
+external-controller: "127.0.0.1:9090"
+
+# Tun 模式
+tun:
+  enable: true
+  stack: system
+  dns-hijack:
+    - "any:53"
+
+# DNS 配置
+dns:
+  enable: true
+  ipv6: false
+  default-nameserver: [8.8.8.8, 223.5.5.5]
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  use-hosts: true
+  nameserver:
+    - "https://doh.pub/dns-query"
+    - "https://dns.alidns.com/dns-query"
+  fallback:
+    - "https://doh.dns.sb/dns-query"
+    - "https://dns.cloudflare.com/dns-query"
+    - "https://dns.twnic.tw/dns-query"
+    - "tls://8.8.4.4:853"
+  fallback-filter: { geoip: true, ipcidr: [240.0.0.0/4, 0.0.0.0/32] }
+
+proxies:
+  - name: "台北原生"
+    type: trojan
+    server: gtm2.a0079.store
+    port: 11758
+    password: a1b4bc0e-862f-42e1-b0c7-c9b0376d0f50
+    udp: true
+    sni: gtm2.a0079.store
+    skip-cert-verify: true
+
+  # - name: "香港节点"
+  #   type: vmess
+  #   ...
+
+# 代理组
+proxy-groups:
+  - name: "PROXY"
+    type: select
+    proxies:
+      - "台北原生"
+      # 直连
+      - "DIRECT"
+
+# 代理规则
+rules:
+  - "MATCH,PROXY"

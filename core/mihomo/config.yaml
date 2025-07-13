@@ -39,7 +39,7 @@ proxies:
     type: trojan
     server: gtm2.a0079.store
     port: 11758
-    password: "*******-*********-********"
+    password: a1b4bc0e-862f-42e1-b0c7-c9b0376d0f50
     udp: true
     sni: gtm2.a0079.store
     skip-cert-verify: true
