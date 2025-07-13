@@ -1,0 +1,66 @@
+mixed-port: 7890
+allow-lan: true
+mode: rule
+log-level: info
+external-controller: "127.0.0.1:9090"
+
+tun:
+  enable: true
+  stack: system
+  dns-hijack:
+    - "any:53"
+  auto-route: true
+  auto-detect-interface: true
+
+dns:
+  enable: true
+  ipv6: false
+  nameserver:
+    - https://223.5.5.5/dns-query
+    - https://1.12.12.12/dns-query
+    - system
+  fallback:
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+    - tls://dns.adguard-dns.com
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fallback-filter:
+    geoip: true
+    ipcidr:
+      - 240.0.0.0/4
+      - 127.0.0.1/8
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+
+proxies:
+  - name: "台北原生"
+    type: trojan
+    server: gtm2.a0079.store
+    port: 11758
+    password: "*******-*********-********"
+    udp: true
+    sni: gtm2.a0079.store
+    skip-cert-verify: true
+
+proxy-groups:
+  - name: "PROXY"
+    type: select
+    proxies:
+      - "台北原生"
+
+  - name: "Domestic"
+    type: select
+    proxies:
+      - "DIRECT"
+      - "PROXY"
+
+rules:
+  - DOMAIN-SUFFIX,local,DIRECT
+  - IP-CIDR,127.0.0.1/8,DIRECT
+  - IP-CIDR,10.0.0.0/8,DIRECT
+  - IP-CIDR,172.16.0.0/12,DIRECT
+  - IP-CIDR,192.168.0.0/16,DIRECT
+  - IP-CIDR,224.0.0.0/4,DIRECT
+  - MATCH,PROXY

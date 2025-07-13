@@ -14,7 +14,8 @@
   "scripts": {
     "format": "prettier --write .",
     "dev-back": "cd backend && npm run dev",
-    "dev-front": "cd frontend && npm run dev"
+    "dev-front": "cd frontend && npm run dev",
+    "mihomo": "node launcher.js"
   },
   "repository": {
     "type": "git",
